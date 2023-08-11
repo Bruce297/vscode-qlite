@@ -2,6 +2,11 @@
 
 All notable changes to the "vscode-qlite" extension will be documented in this file.
 
+## [1.5.6] - 2023-08-11
+
+### Fixed
+- 修复通知消息显示错聊天室的bug
+
 ## [1.5.5] - 2023-08-03
 
 ### Changed

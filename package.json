@@ -1,6 +1,6 @@
 {
   "name": "vscode-qlite",
-  "version": "1.5.5",
+  "version": "1.5.6",
   "publisher": "Vi-brance",
   "engines": {
     "vscode": "^1.77.0"
@@ -124,7 +124,7 @@
   },
   "dependencies": {
     "@vscode/webview-ui-toolkit": "^1.2.2",
-    "icqq": "^0.4.12",
+    "icqq": "^0.4.14",
     "vscode-messenger": "^0.4.5",
     "vscode-messenger-common": "^0.4.5",
     "vscode-messenger-webview": "^0.4.5",
