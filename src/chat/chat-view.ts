@@ -48,7 +48,7 @@ export default class ChatViewManager {
     const label =
       (type === ChatType.Friend
         ? Global.client.pickFriend(uin).remark ??
-          Global.client.pickFriend(uin).nickname
+        Global.client.pickFriend(uin).nickname
         : Global.client.pickGroup(uin).name) ?? 'empty name';
     const chatView: vscode.WebviewPanel = vscode.window.createWebviewPanel(
       'chat',
@@ -59,36 +59,48 @@ export default class ChatViewManager {
     const msgParticipant = Global.messenger.registerWebviewPanel(chatView);
     this.panelMap[type].set(uin, chatView);
     /** 所有需要发送到页面的事件处理器列表，页面关闭时销毁 */
-    const toDispose = [
+    const toDispose =
       type === ChatType.Friend
-        ? Global.client.on('message.private', (event) => {
-            if (event.friend.uid !== uin) {
-              return;
-            }
-            Global.messenger.sendNotification(
-              chat.messageEvent,
-              msgParticipant,
-              event
-            );
-          })
-        : Global.client.on('message.group', (event) => {
-            if (event.group_id !== uin) {
-              return;
-            }
-            Global.messenger.sendNotification(
-              chat.messageEvent,
-              msgParticipant,
-              event
-            );
-          }),
-      Global.client.on('notice', (event) => {
-        Global.messenger.sendNotification(
-          chat.noticeEvent,
-          msgParticipant,
-          event
-        );
-      })
-    ];
+        ? [Global.client.on('message.private', (event) => {
+          if (event.friend.uid !== uin) {
+            return;
+          }
+          Global.messenger.sendNotification(
+            chat.messageEvent,
+            msgParticipant,
+            event
+          );
+        }),
+        Global.client.on('notice.friend', (event) => {
+          if (event.friend.uid !== uin) {
+            return;
+          }
+          Global.messenger.sendNotification(
+            chat.noticeEvent,
+            msgParticipant,
+            event
+          );
+        })]
+        : [Global.client.on('message.group', (event) => {
+          if (event.group_id !== uin) {
+            return;
+          }
+          Global.messenger.sendNotification(
+            chat.messageEvent,
+            msgParticipant,
+            event
+          );
+        }),
+        Global.client.on('notice.group', (event) => {
+          if (event.group_id !== uin) {
+            return;
+          }
+          Global.messenger.sendNotification(
+            chat.noticeEvent,
+            msgParticipant,
+            event
+          );
+        })];
     chatView.iconPath = vscode.Uri.joinPath(this.extensionUri, 'ico.ico');
     chatView.webview.html = getHtmlForWebview(chatView.webview, 'chat');
     chatView.onDidDispose(() => {
@@ -112,7 +124,7 @@ export default class ChatViewManager {
             type === ChatType.Friend
               ? Global.client.nickname
               : Global.client.pickGroup(uin).pickMember(Global.client.uin)
-                  .card ?? Global.client.nickname,
+                .card ?? Global.client.nickname,
           type
         };
       },
