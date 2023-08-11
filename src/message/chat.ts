@@ -74,6 +74,19 @@ export const messageEvent: NotificationType<
   method: 'messageEvent'
 };
 /** 通知事件 */
-export const noticeEvent: NotificationType<any> = {
+export const noticeEvent: NotificationType<
+  | icqq.MemberIncreaseEvent
+  | icqq.MemberDecreaseEvent
+  | icqq.GroupSignEvent
+  | icqq.GroupRecallEvent
+  | icqq.GroupAdminEvent
+  | icqq.GroupMuteEvent
+  | icqq.GroupTransferEvent
+  | icqq.GroupPokeEvent
+  | icqq.FriendIncreaseEvent
+  | icqq.FriendDecreaseEvent
+  | icqq.FriendRecallEvent
+  | icqq.FriendPokeEvent
+> = {
   method: 'noticeEvent'
 };

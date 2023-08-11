@@ -133,7 +133,10 @@ messenger.onNotification(chat.messageEvent, (message) => {
   msgBox.insertAdjacentElement('beforeend', createUserMsg(message));
 });
 messenger.onNotification(chat.noticeEvent, (notice) => {
-  if (getMessage(notice.message_id)) {
+  if (
+    notice.notice_type === 'friend' &&
+    (notice.sub_type === 'increase' || notice.sub_type === 'decrease')
+  ) {
     return;
   }
   createNoticeMsg(notice).then((elem) =>
